@@ -1,23 +1,47 @@
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
 public class BlackJack
 {
     private int value;
     int a = (int)(Math.random() * 10) + 1;
     int b = (int)(Math.random() * 10) + 1;
-    int total = a + b;
 
+    public BlackJack() {
+        value = 0;
+        value = a + b;
+    }
+    
+    private void draw() {
+        int newCard = (int)(Math.random() * 10) + 1;
+        System.out.println("Your value is " + newCard + value);
+        value += newCard;
+    }
     
     public void turn(){
-        this.value = (int)(Math.random() * 10) + 1;
+        String[] turn;
+        Scanner scanner = new Scanner(System.in);
+        boolean shouldContinue = true;
         
-        for (int i = value; i < 21; this.value++) {
-            System.out.println(a + " " + b);
-        //if (value > 21) {
-            //System.out.println(value + " You lose");
-        //} else if (value == 21) {
-            //System.out.println(value + "BlackJack! You Win!");
-        //} else if (value < 21) {
-        
-        //}    
+        while (true) {
+            System.out.println("Your hand is " + a + "&" + b);
+            System.out.println("prepare to draw");
+            try {
+                draw();
+                if (value == 21) {
+                    System.out.println("BlackJack you win!");
+                    shouldContinue = false;
+                } else if (value > 21) {
+                    System.out.println("you busted! :(");
+                    shouldContinue = false;
+                } else {
+                    System.out.println("Your hand is too low, let's draw again");
+                    turn();
+                }
+            } catch (InputMismatchException error) {
+                scanner.next();
+                System.out.println("please 'draw' or 'stand'");
+            }
         }
     }
     
@@ -25,28 +49,5 @@ public class BlackJack
     {
         BlackJack hw = new BlackJack();
         hw.turn();
-    }
-    
-    
-    
-    public BlackJack() {
-        this.draw();
-    }
-    
-    private void draw() {
-        this.value = (int)(Math.random() * 10) + 1;
-    }
-    
-    private int getValue(){
-        return value;
-    }
-
-    private void draw() {
-        this.value = (int)(Math.random() * 10) + 1;
-    }
-    
-    public int drawAndGetValue(int y) {
-        draw();
-        return getValue();
     }
 }
