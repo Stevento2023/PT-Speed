@@ -14,6 +14,7 @@ public class BlackJack
     
     private void draw() {
         int newCard = (int)(Math.random() * 10) + 1;
+        
         System.out.println("Your value is " + newCard + value);
         value += newCard;
     }
@@ -24,24 +25,27 @@ public class BlackJack
         boolean shouldContinue = true;
         
         while (true) {
-            System.out.println("Your hand is " + a + "&" + b);
-            System.out.println("prepare to draw");
             try {
-                draw();
+                System.out.println("Your hand is " + a + " & " + b);
                 if (value == 21) {
+                    System.out.println("Your hand is " + value);
                     System.out.println("BlackJack you win!");
                     shouldContinue = false;
                 } else if (value > 21) {
-                    System.out.println("you busted! :(");
+                    System.out.println("Your hand is " + value);
+                    System.out.println("you busted! Too bad you lose :(");
                     shouldContinue = false;
                 } else {
+                    System.out.println("Your hand is " + value);
                     System.out.println("Your hand is too low, let's draw again");
+                    draw();
                     turn();
                 }
             } catch (InputMismatchException error) {
                 scanner.next();
                 System.out.println("please 'draw' or 'stand'");
             }
+            shouldContinue = false;
         }
     }
     
