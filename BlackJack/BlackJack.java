@@ -3,61 +3,81 @@ import java.util.InputMismatchException;
 
 public class BlackJack
 {
-    private int value;
-    String option;
-    int a = (int)(Math.random() * 10) + 1;
-    int b = (int)(Math.random() * 10) + 1;
+    int value;
+    private int oppValue = (int)(Math.random() * 21) + 1;
+    private int option;
 
     public BlackJack() {
-        value = 0;
-        value = a + b;
+        
     }
 
+    private int dealer() {
+        if (oppValue <= 15) {
+            oppValue = 17;
+        }
+        return oppValue;
+    }
+    
+    public int newHand() {
+        value = 0;
+        int a = (int)(Math.random() * 10) + 1;
+        int b = (int)(Math.random() * 10) + 1;
+        value = a + b;
+        System.out.println("Your hand is " + a + " & " + b);
+        return value;
+    }
+    
     public int draw() {
         int newCard = (int)(Math.random() * 10) + 1;
 
         System.out.println("you new card is " + newCard);
-        System.out.println("Your old value is "+ value);
         value = value + newCard;
-        System.out.println("So now your value is " + value);
         return value;
     }
 
     public void turn(){
         Scanner scanner = new Scanner(System.in);
         boolean shouldContinue = true;
+        newHand();
 
         while (true) {
-            System.out.println("Your hand is " + a + " & " + b);
+            System.out.println("Your value is " + value);
             try {
-                System.out.println("Your hand is " + value);
-                System.out.println("Would you like to draw or stand?");
-                option = scanner.next();
-                if (option == "draw") {
+                System.out.println("Enter 1 to draw or 2 to stand?");
+                option = scanner.nextInt();
+                if (option == 1) {
                     draw();
-                } else {
+                } else if (option == 2) {
                     System.out.println("lets see how you did");
+                    System.out.println("the dealer is at " + oppValue);
+                    System.out.println("your value is at " + value);
+                    check();
+                } else {
+                    System.out.println("Press 1 or 2");
                 }
             } catch (InputMismatchException error) {
                 scanner.next();
-                System.out.println("please 'draw' or 'stand'");
+                System.out.println("plese enter 1 or 2");
             }
-            
-            if (value > 21) {
-                    System.out.println("you busted! Too bad you lose :(");
-                    shouldContinue = false;
-                } else if (value == 21) {
-                    System.out.println("BlackJack you win!");
-                    shouldContinue = false;
-                } else if (value < 21) {
-                    System.out.println("Your hand is too low, you lose");
-                    shouldContinue = false;
-                }
         }
     }
+    
+    public void check() {
+        if (value > 21) {
+            System.out.println("you busted! Too bad you lose :(");
+            } else if (value == 21 && value != oppValue) {
+                System.out.println("BlackJack you win!");
+            } else if (value < oppValue) {
+                System.out.println("Your hand is too low, you lose");
+            } else if (value == oppValue) {
+                System.out.println("Too bad you lose :(");
+            } else if (value > oppValue) {
+                System.out.println("You win!!!");
+            }
+        System.out.println(" ");
+    }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         BlackJack hw = new BlackJack();
         hw.turn();
     }
