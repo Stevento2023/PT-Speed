@@ -12,14 +12,13 @@ public class BlackJack
     }
 
     private int dealer() {
-        if (oppValue <= 15) {
+        if (oppValue < 17) {
             oppValue = 17;
         }
         return oppValue;
     }
     
     public int newHand() {
-        value = 0;
         int a = (int)(Math.random() * 10) + 1;
         int b = (int)(Math.random() * 10) + 1;
         value = a + b;
@@ -38,6 +37,7 @@ public class BlackJack
     public void turn(){
         Scanner scanner = new Scanner(System.in);
         boolean shouldContinue = true;
+        System.out.println(" ");
         newHand();
 
         while (true) {
@@ -47,34 +47,45 @@ public class BlackJack
                 option = scanner.nextInt();
                 if (option == 1) {
                     draw();
+                    if (value > 21) {
+                        System.out.println("you busted! Too bad you lose :(");
+                        System.out.println(" ");
+                        System.out.println("Prepare to restart");
+                        turn();
+                    }
+                    if (value == 21 && value != oppValue) {
+                        System.out.println("BlackJack you win!");
+                    }
                 } else if (option == 2) {
                     System.out.println("lets see how you did");
+                    dealer();
                     System.out.println("the dealer is at " + oppValue);
                     System.out.println("your value is at " + value);
                     check();
+                    System.out.println(" ");
+                    newHand();
                 } else {
-                    System.out.println("Press 1 or 2");
+                    System.out.println("please press 1 or 2");
+                    System.out.println("Since you didn't listen the first time, you're getting a new hand");
+                    turn();
                 }
             } catch (InputMismatchException error) {
                 scanner.next();
-                System.out.println("plese enter 1 or 2");
+                System.out.println("please press 1 or 2");
+                System.out.println("Since you didn't listen the first time, you're getting a new hand");
+                turn();
             }
         }
     }
     
     public void check() {
-        if (value > 21) {
-            System.out.println("you busted! Too bad you lose :(");
-            } else if (value == 21 && value != oppValue) {
-                System.out.println("BlackJack you win!");
-            } else if (value < oppValue) {
+        if (value < oppValue) {
                 System.out.println("Your hand is too low, you lose");
             } else if (value == oppValue) {
                 System.out.println("Too bad you lose :(");
             } else if (value > oppValue) {
                 System.out.println("You win!!!");
             }
-        System.out.println(" ");
     }
 
     public static void main(String[] args) {
