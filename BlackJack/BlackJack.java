@@ -11,7 +11,8 @@ public class BlackJack
         
     }
 
-    private int dealer() {
+    public int dealer() {
+        oppValue = (int)(Math.random() * 21) + 1;
         if (oppValue < 17) {
             oppValue = 17;
         }
@@ -22,7 +23,15 @@ public class BlackJack
         int a = (int)(Math.random() * 10) + 1;
         int b = (int)(Math.random() * 10) + 1;
         value = a + b;
-        System.out.println("Your hand is " + a + " & " + b);
+        if (a == b) {
+            value = 21;
+            System.out.println("You got a BlackJack");
+            System.out.println("You should probably enter 2");
+            check();
+            turn();
+        } else {
+            System.out.println("Your hand is " + a + " & " + b);
+        }
         return value;
     }
     
@@ -34,6 +43,22 @@ public class BlackJack
         return value;
     }
 
+    public void check() {
+        System.out.println("lets see how you did");
+        dealer();
+        System.out.println("the dealer is at " + oppValue);
+        System.out.println("your value is at " + value);
+        if (value < oppValue) {
+                System.out.println("Your hand is too low, you lose :(");
+            } else if (value == oppValue) {
+                System.out.println("a draw!");
+            } else if (value > oppValue) {
+                System.out.println("You win!!!");
+            } else if (value == 21 && value != oppValue){
+                System.out.println("BlackJack you win!!!");
+            }
+    }
+    
     public void turn(){
         Scanner scanner = new Scanner(System.in);
         boolean shouldContinue = true;
@@ -48,19 +73,17 @@ public class BlackJack
                 if (option == 1) {
                     draw();
                     if (value > 21) {
-                        System.out.println("you busted! Too bad you lose :(");
+                        System.out.println("You BUSTED! Too bad you lose :(");
                         System.out.println(" ");
                         System.out.println("Prepare to restart");
                         turn();
                     }
-                    if (value == 21 && value != oppValue) {
-                        System.out.println("BlackJack you win!");
+                    if (value == 21) {
+                        check();
+                        System.out.println(" ");
+                        newHand();
                     }
                 } else if (option == 2) {
-                    System.out.println("lets see how you did");
-                    dealer();
-                    System.out.println("the dealer is at " + oppValue);
-                    System.out.println("your value is at " + value);
                     check();
                     System.out.println(" ");
                     newHand();
@@ -76,16 +99,6 @@ public class BlackJack
                 turn();
             }
         }
-    }
-    
-    public void check() {
-        if (value < oppValue) {
-                System.out.println("Your hand is too low, you lose");
-            } else if (value == oppValue) {
-                System.out.println("Too bad you lose :(");
-            } else if (value > oppValue) {
-                System.out.println("You win!!!");
-            }
     }
 
     public static void main(String[] args) {
