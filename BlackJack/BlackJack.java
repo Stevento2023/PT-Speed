@@ -27,8 +27,6 @@ public class BlackJack
             value = 21;
             System.out.println("You got a BlackJack");
             System.out.println("You should probably enter 2");
-            check();
-            turn();
         } else {
             System.out.println("Your hand is " + a + " & " + b);
         }
@@ -59,12 +57,8 @@ public class BlackJack
             }
     }
     
-    public void turn(){
+    public void move() {
         Scanner scanner = new Scanner(System.in);
-        boolean shouldContinue = true;
-        System.out.println(" ");
-        newHand();
-
         while (true) {
             System.out.println("Your value is " + value);
             try {
@@ -99,6 +93,13 @@ public class BlackJack
                 turn();
             }
         }
+    }
+    
+    public void turn(){
+        boolean shouldContinue = true;
+        System.out.println(" ");
+        newHand();
+        move();
     }
 
     public static void main(String[] args) {
