@@ -4,11 +4,14 @@ import java.util.InputMismatchException;
 public class BlackJack
 {
     int value;
+    int A;
+    int B;
     private int oppValue = (int)(Math.random() * 21) + 1;
     private int option;
+    private int choice;
 
     public BlackJack() {
-        
+
     }
 
     public int dealer() {
@@ -19,47 +22,81 @@ public class BlackJack
         return oppValue;
     }
     
-    public int newHand() {
+    private void newHand() {
         int a = (int)(Math.random() * 10) + 1;
         int b = (int)(Math.random() * 10) + 1;
-        value = a + b;
-        if (a == b) {
+        A = a;
+        B = b;
+    }
+    
+    public int Ace() {
+        Scanner cool = new Scanner(System.in);
+        System.out.println("Your hand is " + A + " & " + B);
+        if (A == B) {
             value = 21;
             System.out.println("You got a BlackJack");
             System.out.println("You should probably enter 2");
+        } else if (A == 1 || A == 11) {
+            System.out.println("you can either choose to have " + A + "as 1 the value to be 11");
+            System.out.println("press 3 to keep as '1', or 4 to change to '11'");
+            choice = cool.nextInt();
+            if (choice == 3) {
+                A = 1;
+            } else if (choice == 4) {
+                A = 11;
+            } else {
+                System.out.println("Since you didn't listen the first time, you're getting a new hand");
+                turn();
+                return A;
+            }
+            value = A + B;
+        } else  if (B == 1 || B == 11){
+            System.out.println("you can either choose to have the value as 1 the value to be 11");
+            System.out.println("press 3 to keep as '1', or 4 to change to '11'");
+            choice = cool.nextInt();
+            if (choice == 3) {
+                B = 1;
+            } else if (choice == 4) {
+                B = 11;
+            } else {
+                System.out.println("Since you didn't listen the first time, you're getting a new hand");
+                turn();
+                return B;
+            }
+            value = A + B;
         } else {
-            System.out.println("Your hand is " + a + " & " + b);
+            value = A + B;
         }
         return value;
     }
-    
-    public int draw() {
-        int newCard = (int)(Math.random() * 10) + 1;
 
+    private int draw() {
+        int newCard = (int)(Math.random() * 10) + 1;
         System.out.println("you new card is " + newCard);
         value = value + newCard;
         return value;
     }
 
-    public void check() {
+    private void check() {
         System.out.println("lets see how you did");
         dealer();
         System.out.println("the dealer is at " + oppValue);
         System.out.println("your value is at " + value);
         if (value < oppValue) {
-                System.out.println("Your hand is too low, you lose :(");
-            } else if (value == oppValue) {
-                System.out.println("a draw!");
-            } else if (value > oppValue) {
-                System.out.println("You win!!!");
-            } else if (value == 21 && value != oppValue){
-                System.out.println("BlackJack you win!!!");
-            }
+            System.out.println("Your hand is too low, you lose :(");
+        } else if (value == oppValue) {
+            System.out.println("a draw!");
+        } else if (value > oppValue) {
+            System.out.println("You win!!!");
+        } else if (value == 21 && value != oppValue){
+            System.out.println("BlackJack you win!!!");
+        }
     }
-    
-    public void move() {
+
+    private void move() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            Ace();
             System.out.println("Your value is " + value);
             try {
                 System.out.println("Enter 1 to draw or 2 to stand?");
@@ -94,7 +131,7 @@ public class BlackJack
             }
         }
     }
-    
+
     public void turn(){
         boolean shouldContinue = true;
         System.out.println(" ");
