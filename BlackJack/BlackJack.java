@@ -6,12 +6,20 @@ public class BlackJack
     int value;
     int A;
     int B;
+    int C;
     private int oppValue = (int)(Math.random() * 21) + 1;
     private int option;
     private int choice;
 
-    public BlackJack() {
-
+    public void BlackJack() {
+        if (A + B == 21) {
+            System.out.println("You got a BlackJack");
+            System.out.println("You should probably enter 2");
+        }
+        if (value == 21) {
+            System.out.println("You got 21");
+            System.out.println("You should probably enter 2");
+        }
     }
 
     public int dealer() {
@@ -29,15 +37,11 @@ public class BlackJack
         B = b;
     }
     
-    public int Ace() {
+    public int ace() {
         Scanner cool = new Scanner(System.in);
-        System.out.println("Your hand is " + A + " & " + B);
-        if (A == B) {
-            value = 21;
-            System.out.println("You got a BlackJack");
-            System.out.println("You should probably enter 2");
-        } else if (A == 1 || A == 11) {
-            System.out.println("you can either choose to have " + A + "as 1 the value to be 11");
+        cAce();
+        if (A == 1 || A == 11) {
+            System.out.println("you can either choose to keep " + A + " as 1 the value to be 11");
             System.out.println("press 3 to keep as '1', or 4 to change to '11'");
             choice = cool.nextInt();
             if (choice == 3) {
@@ -51,7 +55,7 @@ public class BlackJack
             }
             value = A + B;
         } else  if (B == 1 || B == 11){
-            System.out.println("you can either choose to have the value as 1 the value to be 11");
+            System.out.println("you can either choose to keep " + B + " as 1 the value to be 11");
             System.out.println("press 3 to keep as '1', or 4 to change to '11'");
             choice = cool.nextInt();
             if (choice == 3) {
@@ -70,10 +74,30 @@ public class BlackJack
         return value;
     }
 
+    private int cAce() {
+        Scanner diffCard = new Scanner(System.in);
+        if (C == 1 || C == 11) {
+            System.out.println("you can either choose to keep " + C + " as 1 the value to be 11");
+            System.out.println("press 3 to keep as '1', or 4 to change to '11'");
+            choice = diffCard.nextInt();
+            if (choice == 3) {
+                C = 1;
+            } else if (choice == 4) {
+                C = 11;
+            } else {
+                System.out.println("Since you didn't listen the first time, you're getting a new hand");
+                turn();
+            }
+        }
+        return C;
+    }
+    
     private int draw() {
         int newCard = (int)(Math.random() * 10) + 1;
-        System.out.println("you new card is " + newCard);
-        value = value + newCard;
+        System.out.println("your new card is " + newCard);
+        C = newCard;
+        cAce();
+        value = value + C;
         return value;
     }
 
@@ -91,12 +115,13 @@ public class BlackJack
         } else if (value == 21 && value != oppValue){
             System.out.println("BlackJack you win!!!");
         }
+        System.out.println("Prepare to restart");
     }
 
     private void move() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            Ace();
+            BlackJack();
             System.out.println("Your value is " + value);
             try {
                 System.out.println("Enter 1 to draw or 2 to stand?");
@@ -104,20 +129,17 @@ public class BlackJack
                 if (option == 1) {
                     draw();
                     if (value > 21) {
+                        System.out.println("Your value is " + value);
+                        ace();
                         System.out.println("You BUSTED! Too bad you lose :(");
                         System.out.println(" ");
                         System.out.println("Prepare to restart");
                         turn();
                     }
-                    if (value == 21) {
-                        check();
-                        System.out.println(" ");
-                        newHand();
-                    }
                 } else if (option == 2) {
                     check();
                     System.out.println(" ");
-                    newHand();
+                    turn();
                 } else {
                     System.out.println("please press 1 or 2");
                     System.out.println("Since you didn't listen the first time, you're getting a new hand");
@@ -136,6 +158,8 @@ public class BlackJack
         boolean shouldContinue = true;
         System.out.println(" ");
         newHand();
+        System.out.println("Your hand is " + A + " & " + B);
+        ace();
         move();
     }
 
