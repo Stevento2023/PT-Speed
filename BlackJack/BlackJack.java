@@ -41,7 +41,7 @@ public class BlackJack
         Scanner cool = new Scanner(System.in);
         cAce();
         if (A == 1 || A == 11) {
-            System.out.println("you can either choose to keep " + A + " as 1 the value to be 11");
+            System.out.println("you can either choose to make the value of A as 1 or 11");
             System.out.println("press 3 to keep as '1', or 4 to change to '11'");
             choice = cool.nextInt();
             if (choice == 3) {
@@ -55,7 +55,7 @@ public class BlackJack
             }
             value = A + B;
         } else  if (B == 1 || B == 11){
-            System.out.println("you can either choose to keep " + B + " as 1 the value to be 11");
+            System.out.println("you can either choose to make the value of A as 1 or 11");
             System.out.println("press 3 to keep as '1', or 4 to change to '11'");
             choice = cool.nextInt();
             if (choice == 3) {
@@ -77,7 +77,7 @@ public class BlackJack
     private int cAce() {
         Scanner diffCard = new Scanner(System.in);
         if (C == 1 || C == 11) {
-            System.out.println("you can either choose to keep " + C + " as 1 the value to be 11");
+            System.out.println("you can either choose to keep A as 1 the value to be 11");
             System.out.println("press 3 to keep as '1', or 4 to change to '11'");
             choice = diffCard.nextInt();
             if (choice == 3) {
@@ -131,6 +131,7 @@ public class BlackJack
                     if (value > 21) {
                         System.out.println("Your value is " + value);
                         ace();
+                        cAce();
                         System.out.println("You BUSTED! Too bad you lose :(");
                         System.out.println(" ");
                         System.out.println("Prepare to restart");
@@ -153,12 +154,22 @@ public class BlackJack
             }
         }
     }
+    
+    private void cards() {
+        if (A == 1) {
+            System.out.println("Your hand is A & " + B);
+        } else if (B == 1) {
+            System.out.println("Your hand is " + A + " & A");
+        } else {
+            System.out.println("Your hand is " + A + " & " + B);
+        }
+    }
 
     public void turn(){
         boolean shouldContinue = true;
         System.out.println(" ");
         newHand();
-        System.out.println("Your hand is " + A + " & " + B);
+        cards();
         ace();
         move();
     }
