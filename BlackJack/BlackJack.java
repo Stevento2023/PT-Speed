@@ -40,7 +40,7 @@ public class BlackJack
     public int ace() {
         Scanner cool = new Scanner(System.in);
         cAce();
-        if (A == 1 || A == 11) {
+        if (A == 1 || (value > 21 && A == 11)) {
             System.out.println("you can either choose to make the value of A as 1 or 11");
             System.out.println("press 3 to keep as '1', or 4 to change to '11'");
             choice = cool.nextInt();
@@ -53,8 +53,7 @@ public class BlackJack
                 turn();
                 return A;
             }
-            value = A + B;
-        } else  if (B == 1 || B == 11){
+        } else  if (B == 1 || (value > 21 && B == 11)){
             System.out.println("you can either choose to make the value of A as 1 or 11");
             System.out.println("press 3 to keep as '1', or 4 to change to '11'");
             choice = cool.nextInt();
@@ -67,7 +66,6 @@ public class BlackJack
                 turn();
                 return B;
             }
-            value = A + B;
         } else {
             value = A + B;
         }
@@ -76,7 +74,7 @@ public class BlackJack
 
     private int cAce() {
         Scanner diffCard = new Scanner(System.in);
-        if (C == 1 || C == 11) {
+        if ((C == 1) || (value > 21 && C == 11)) {
             System.out.println("you can either choose to keep A as 1 the value to be 11");
             System.out.println("press 3 to keep as '1', or 4 to change to '11'");
             choice = diffCard.nextInt();
@@ -129,13 +127,16 @@ public class BlackJack
                 if (option == 1) {
                     draw();
                     if (value > 21) {
-                        System.out.println("Your value is " + value);
-                        ace();
-                        cAce();
-                        System.out.println("You BUSTED! Too bad you lose :(");
-                        System.out.println(" ");
-                        System.out.println("Prepare to restart");
-                        turn();
+                        if (A == 11 || B == 11) {
+                            System.out.println("Your value is " + value);
+                            ace();
+                            cAce();
+                        } else {
+                            System.out.println("You BUSTED! Too bad you lose :(");
+                            System.out.println(" ");
+                            System.out.println("Prepare to restart");
+                            turn();
+                        }
                     }
                 } else if (option == 2) {
                     check();
@@ -171,6 +172,7 @@ public class BlackJack
         newHand();
         cards();
         ace();
+        value = A + B;
         move();
     }
 
