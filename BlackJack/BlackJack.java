@@ -7,7 +7,7 @@ public class BlackJack
     int A;
     int B;
     int C;
-    private int oppValue = (int)(Math.random() * 21) + 1;
+    private int oppValue;
     private int option;
     private int choice;
 
@@ -23,18 +23,42 @@ public class BlackJack
     }
 
     public int dealer() {
-        oppValue = (int)(Math.random() * 21) + 1;
-        if (oppValue < 17) {
+        oppValue = (int)(Math.random() * 25) + 1;
+        if (oppValue == 22) {
+            oppValue = 15;
+        } else if (oppValue < 17) {
             oppValue = 17;
         }
         return oppValue;
     }
     
     private void newHand() {
-        int a = (int)(Math.random() * 10) + 1;
-        int b = (int)(Math.random() * 10) + 1;
+        int a = (int)(Math.random() * 13) + 1;
+        int b = (int)(Math.random() * 13) + 1;
+        if (a == 11 || a == 12 || a == 13) {
+            a = 10;
+        }
+        if (b == 11 || b == 12 || b == 13) {
+            b = 10;
+        }
         A = a;
         B = b;
+    }
+    
+    private int draw() {
+        int newCard = (int)(Math.random() * 13) + 1;
+        if (newCard == 11 || newCard == 12 || newCard == 13) {
+            newCard = 10;
+        }
+        if (newCard == 1) {
+            System.out.println("your new card is A");
+        } else {
+            System.out.println("your new card is " + newCard);
+        }
+        C = newCard;
+        cAce();
+        value = value + C;
+        return value;
     }
     
     public int ace() {
@@ -87,19 +111,6 @@ public class BlackJack
             }
         }
         return C;
-    }
-    
-    private int draw() {
-        int newCard = (int)(Math.random() * 10) + 1;
-        if (C == 1) {
-            System.out.println("your new card is A");
-        } else {
-            System.out.println("your new card is " + newCard);
-        }
-        C = newCard;
-        cAce();
-        value = value + C;
-        return value;
     }
 
     private void check() {
@@ -166,6 +177,7 @@ public class BlackJack
     private void cards() {
         if (A == 1 && B == 1) {
             System.out.println("Your hand is A & A");
+            System.out.println("You can only chose to change one Ace.");
         } else if (B == 1) {
             System.out.println("Your hand is " + A + " & A");
         } else if (A == 1) {
@@ -180,8 +192,8 @@ public class BlackJack
         System.out.println(" ");
         newHand();
         cards();
-        ace();
         value = A + B;
+        ace();
         move();
     }
 
