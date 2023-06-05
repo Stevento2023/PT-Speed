@@ -7,6 +7,8 @@ public class BlackJack
     int A;
     int B;
     int C;
+    int D;
+    int E;
     private int oppValue;
     private int option;
     private int choice;
@@ -35,14 +37,24 @@ public class BlackJack
     private void newHand() {
         int a = (int)(Math.random() * 13) + 1;
         int b = (int)(Math.random() * 13) + 1;
+        int d = (int)(Math.random() * 13) + 1;
+        int e = (int)(Math.random() * 13) + 1;
         if (a == 11 || a == 12 || a == 13) {
             a = 10;
         }
         if (b == 11 || b == 12 || b == 13) {
             b = 10;
         }
+        if (d == 11 || d == 12 || d == 13) {
+            d = 10;
+        }
+        if (e == 11 || e == 12 || e == 13) {
+            e = 10;
+        }
         A = a;
         B = b;
+        D = d;
+        E = e;
     }
     
     private int draw() {
@@ -113,6 +125,12 @@ public class BlackJack
         return C;
     }
 
+    private void split() {
+        if (A == B) {
+            
+        }
+    }
+    
     private void check() {
         System.out.println("lets see how you did");
         dealer();
