@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 public class BlackJack
 {
     int value;
+    int zValue;
     int A;
     int B;
     int C;
@@ -12,6 +13,7 @@ public class BlackJack
     private int oppValue;
     private int option;
     private int choice;
+    boolean splitCheck = true;
 
     public void BlackJack() {
         if (A + B == 21) {
@@ -103,6 +105,32 @@ public class BlackJack
                 turn();
                 return B;
             }
+        } else  if (D == 1 || (value > 21 && D == 11)){
+            System.out.println("you can either choose to make the value of A as 1 or 11");
+            System.out.println("press 3 to keep as '1', or 4 to change to '11'");
+            choice = cool.nextInt();
+            if (choice == 3) {
+                D = 1;
+            } else if (choice == 4) {
+                D = 11;
+            } else {
+                System.out.println("Since you didn't listen the first time, you're getting a new hand");
+                turn();
+                return D;
+            }
+        } else  if (E== 1 || (value > 21 && E == 11)){
+            System.out.println("you can either choose to make the value of A as 1 or 11");
+            System.out.println("press 3 to keep as '1', or 4 to change to '11'");
+            choice = cool.nextInt();
+            if (choice == 3) {
+                B = 1;
+            } else if (choice == 4) {
+                B = 11;
+            } else {
+                System.out.println("Since you didn't listen the first time, you're getting a new hand");
+                turn();
+                return E;
+            }
         }
         return value;
     }
@@ -127,7 +155,11 @@ public class BlackJack
 
     private void split() {
         if (A == B) {
-            
+            splitCheck = false;
+            value = A + D;
+            zValue = B + E;
+            System.out.println("You now have two hands.");
+            System.out.println("Lets look at your first one.");
         }
     }
     
@@ -145,14 +177,19 @@ public class BlackJack
         } else if (value == 21 && value != oppValue){
             System.out.println("BlackJack you win!!!");
         }
-        System.out.println("Prepare to restart");
     }
 
     private void move() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             BlackJack();
-            System.out.println("Your value is " + value);
+            split();
+            if (splitCheck = true) {
+                System.out.println("Your first value is " + value);
+                System.out.println("Your second value is " + zValue);
+            } else {
+                System.out.println("Your value is " + value);
+            }
             try {
                 System.out.println("Enter 1 to draw or 2 to stand?");
                 option = scanner.nextInt();
@@ -169,6 +206,9 @@ public class BlackJack
                             move();
                         } else {
                             System.out.println("You BUSTED! Too bad you lose :(");
+                            if (splitCheck = true) {
+                                
+                            }
                             System.out.println(" ");
                             System.out.println("Prepare to restart");
                             turn();
@@ -176,6 +216,10 @@ public class BlackJack
                     }
                 } else if (option == 2) {
                     check();
+                    if (splitCheck = true) {
+                        
+                    }
+                    System.out.println("Prepare to restart");
                     System.out.println(" ");
                     turn();
                 } else {
